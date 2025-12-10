@@ -1,8 +1,23 @@
 # rainforest
-E-commerce website utilizing Angular, Express and Mongodb. Site retrieves products from Mongodb, stores selected items in cart, takes customer information and uploads order data to Mongodb.
+E-Commerce website utilizing Angular, Express and MongoDB. Site retrieves products from MongoDB, stores selected items locally, takes customer information, and uploads order data to MongoDB.
 
-Requirements:
-> mongodb-community
+### Requirements:
+macOS:
+```
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community
+```
 
-Running the program:
-> ./start.sh
+Linux:
+```
+sudo apt update
+sudo apt install -y mongodb-org
+sudo systemctl start mongod
+sudo systemctl enable mongod
+```
+
+### Running the program:
+```
+./start.sh
+```
