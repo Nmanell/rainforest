@@ -118,7 +118,7 @@
               />
             </div>
 
-            <div>
+            <div class="relative">
               <label for="state" class="block text-sm font-medium text-gray-700 mb-2">
                 State <span class="text-red-500">*</span>
               </label>
@@ -127,10 +127,32 @@
                 id="state"
                 name="state"
                 [(ngModel)]="customerData.address.state"
+                (input)="onStateInput($event)"
+                (keydown)="onStateKeyDown($event)"
+                (focus)="onStateFocus()"
+                (blur)="onStateBlur()"
                 required
                 class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="NY"
+                autocomplete="off"
               />
+              @if (showStateDropdown && filteredStates.length > 0) {
+                <div class="absolute z-10 w-full mt-1 bg-white border border-gray-200 shadow-lg max-h-60 overflow-y-auto p-2 rounded-4xl">
+                  @for (state of filteredStates; track state.code; let i = $index) {
+                    <div
+                      (click)="selectState(state.code)"
+                      [class]="'state-dropdown-item px-4 py-3 cursor-pointer flex justify-between items-center rounded-full ' +
+                               (i === selectedStateIndex ? 'selected bg-emerald-100' : 'hover:bg-emerald-50')"
+                    >
+                      <span [class]="i === selectedStateIndex ? 'text-gray-900 font-semibold' : 'text-gray-900'">{{ state.name }}</span>
+                      <span [class]="'text-sm font-semibold ' + (i === selectedStateIndex ? 'text-emerald-700' : 'text-emerald-600')">{{ state.code }}</span>
+                    </div>
+                  }
+                </div>
+              }
+              @if (customerData.address.state && !isValidState()) {
+                <p class="mt-2 text-sm text-red-600">Please enter a valid 2-letter state code</p>
+              }
             </div>
           </div>
 
@@ -144,24 +166,30 @@
                 id="zipCode"
                 name="zipCode"
                 [(ngModel)]="customerData.address.zipCode"
+                (input)="onZipCodeInput($event)"
                 required
+                pattern="[0-9]{5}"
+                maxlength="5"
                 class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="10001"
+                inputmode="numeric"
               />
+              @if (customerData.address.zipCode && !isValidZipCode()) {
+                <p class="mt-2 text-sm text-red-600">Please enter a valid 5-digit ZIP code</p>
+              }
             </div>
 
             <div>
               <label for="country" class="block text-sm font-medium text-gray-700 mb-2">
-                Country <span class="text-red-500">*</span>
+                Country
               </label>
               <input
                 type="text"
                 id="country"
                 name="country"
-                [(ngModel)]="customerData.address.country"
-                required
-                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                placeholder="United States"
+                value="United States"
+                readonly
+                class="w-full px-4 py-3 border border-gray-200 rounded-full bg-gray-50 text-gray-600 cursor-not-allowed"
               />
             </div>
           </div>
