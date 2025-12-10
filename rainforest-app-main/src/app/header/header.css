@@ -1,0 +1,33 @@
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    scale: 0.95;
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+}
+
+@keyframes fade-out-scale {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    filter: blur(4px);
+    scale: 0.95;
+  }
+}
+
+.animate-fade-in-scale {
+  animation: fade-in-scale 400ms ease-out forwards;
+}
+
+.animate-fade-out-scale {
+  animation: fade-out-scale 300ms ease-out forwards;
+}

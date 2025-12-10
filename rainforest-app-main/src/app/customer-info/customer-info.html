@@ -1,0 +1,230 @@
+<div class="min-h-screen bg-gray-50 pt-28 pb-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-left mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Checkout</h1>
+      <p class="text-lg text-gray-600">Enter your shipping information</p>
+    </div>
+
+    @if (loading) {
+      <div class="flex justify-center items-center min-h-[50vh]">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+          <p class="text-lg text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }
+
+    @if (!loading) {
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 items-start">
+        <form (ngSubmit)="onSubmit()" #customerForm="ngForm">
+          <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
+                First Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                [(ngModel)]="customerData.firstName"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="John"
+              />
+            </div>
+
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                Last Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                [(ngModel)]="customerData.lastName"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="Doe"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+              Email Address <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="customerData.email"
+              required
+              email
+              class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              placeholder="john.doe@example.com"
+            />
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Delivery Address</h2>
+
+          <div class="mb-6">
+            <label for="streetAddress" class="block text-sm font-medium text-gray-700 mb-2">
+              Street Address <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="streetAddress"
+              name="streetAddress"
+              [(ngModel)]="customerData.address.street"
+              required
+              class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              placeholder="123 Main St"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label for="addressLine2" class="block text-sm font-medium text-gray-700 mb-2">
+              Apartment, Suite, etc. (Optional)
+            </label>
+            <input
+              type="text"
+              id="addressLine2"
+              name="addressLine2"
+              [(ngModel)]="customerData.address.line2"
+              class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              placeholder="Apt 4B"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="md:col-span-2">
+              <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
+                City <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                [(ngModel)]="customerData.address.city"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="New York"
+              />
+            </div>
+
+            <div>
+              <label for="state" class="block text-sm font-medium text-gray-700 mb-2">
+                State <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                [(ngModel)]="customerData.address.state"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="NY"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-2">
+                ZIP Code <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="zipCode"
+                name="zipCode"
+                [(ngModel)]="customerData.address.zipCode"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="10001"
+              />
+            </div>
+
+            <div>
+              <label for="country" class="block text-sm font-medium text-gray-700 mb-2">
+                Country <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                [(ngModel)]="customerData.address.country"
+                required
+                class="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="United States"
+              />
+            </div>
+          </div>
+        </div>
+
+            <div class="flex gap-4">
+              <button
+                type="button"
+                (click)="onBack()"
+                class="flex-1 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-6 py-4 rounded-full font-bold transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons text-xl">arrow_back</span>
+                Back to Cart
+              </button>
+              <button
+                type="submit"
+                [disabled]="!customerForm.valid"
+                class="hover:cursor-pointer flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 px-6 rounded-full font-bold text-lg transition-colors"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="lg:sticky lg:top-24">
+          <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
+
+            <div class="space-y-4 mb-6">
+              @for (item of cartItems; track item.id) {
+                <div class="flex items-center gap-4 pb-4 border-b border-gray-100">
+                  <img [src]="item.imageUrl" [alt]="item.name" class="w-16 h-16 object-cover rounded-lg">
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-gray-900 text-sm">{{ item.name }}</h3>
+                    <p class="text-sm text-gray-600">Qty: {{ item.quantity }}</p>
+                  </div>
+                  <span class="font-semibold text-gray-900">${{ (item.price * item.quantity).toFixed(2) }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="space-y-4 mb-6">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-semibold text-gray-900">${{ subtotal.toFixed(2) }}</span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">Tax (8%)</span>
+                <span class="font-semibold text-gray-900">${{ tax.toFixed(2) }}</span>
+              </div>
+
+              <div class="h-px bg-gray-200 my-4"></div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-lg font-bold text-gray-900">Total</span>
+                <span class="text-2xl font-bold text-emerald-600">${{ total.toFixed(2) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

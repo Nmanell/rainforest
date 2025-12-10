@@ -1,0 +1,19 @@
+<div class="flex items-center gap-2">
+  <button
+    (click)="decrement()"
+    [disabled]="quantity <= min"
+    class="hover:cursor-pointer w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+    type="button"
+  >
+    <span class="material-icons text-sm">remove</span>
+  </button>
+  <span class="w-8 text-center font-semibold text-gray-900">{{ quantity }}</span>
+  <button
+    (click)="increment()"
+    [disabled]="quantity >= max"
+    class="hover:cursor-pointer w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+    type="button"
+  >
+    <span class="material-icons text-sm">add</span>
+  </button>
+</div>

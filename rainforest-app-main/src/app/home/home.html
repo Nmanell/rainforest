@@ -1,0 +1,29 @@
+<div class="min-h-screen bg-gray-50 pt-24 pb-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Products</h1>
+
+    @if (error) {
+      <div class="flex justify-center items-center min-h-[50vh]">
+        <app-error-message
+          title="Error"
+          [message]="error"
+          variant="error"
+        ></app-error-message>
+      </div>
+    }
+
+    @if (!loading && !error) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        @for (product of products; track product.id) {
+          <app-product-card
+            [id]="product.id"
+            [name]="product.name"
+            [price]="product.price"
+            [description]="product.description"
+            [image]="product.imageUrl"
+          ></app-product-card>
+        }
+      </div>
+    }
+  </div>
+</div>
