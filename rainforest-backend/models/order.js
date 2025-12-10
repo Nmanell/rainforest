@@ -1,5 +1,3 @@
-
-// models/order.js
 const { Schema, model, Types } = require('mongoose');
 
 const OrderItemSchema = new Schema({

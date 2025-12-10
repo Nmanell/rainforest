@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./db');
@@ -11,13 +10,16 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB when server starts
+// Simulated delay to demonstrate frontend animations 
+app.use((req, res, next) => {
+  setTimeout(() => next(), 500);
+});
+
 connectDB().catch(err => {
   console.error('Failed to connect to MongoDB:', err);
   process.exit(1);
 });
 
-// Get all products from MongoDB
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find({});
@@ -28,14 +30,12 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// Submit order to MongoDB
 app.post('/api/submit-order', async (req, res) => {
   try {
     const orderData = req.body;
     const orderNumber = `ORD${Math.floor(Math.random() * 10000)}`;
-    const orderDate = new Date().toString();
+    const orderDate = new Date().toISOString();
     
-    // Validate and fetch product details
     const orderItems = await Promise.all(
       orderData.items.map(async (item) => {
         const product = await Product.findOne({id: item.id});
@@ -43,15 +43,16 @@ app.post('/api/submit-order', async (req, res) => {
           throw new Error(`Product with id ${item.id} not found`);
         }
         return {
-          productId: product.id,
+          id: product.id,
           name: product.name,
+          description: product.description,
           price: product.price,
           quantity: item.quantity,
+          image: product.imageUrl,
         };
       })
     );
 
-    // Create and save order
     const order = new Order({
       orderNumber,
       date: orderDate,
@@ -60,7 +61,6 @@ app.post('/api/submit-order', async (req, res) => {
     });
 
     await order.save();
-    console.log('Order saved to MongoDB:', orderNumber);
 
     res.json({
       orderNumber,

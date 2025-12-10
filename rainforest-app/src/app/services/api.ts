@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface Product {
   id: number;
@@ -71,6 +72,16 @@ export class Api {
 
   constructor(private http: HttpClient) {}
 
+  private readableDate(isoDate: string): string {
+    const date = new Date(isoDate);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    return date.toLocaleDateString('en-US', options);
+  }
+
   getProducts(): Observable<Product[]> {
     if (this.productsCache) {
       const now = Date.now();
@@ -102,6 +113,13 @@ export class Api {
   }
 
   submitOrder(orderData: OrderRequest): Observable<OrderResponse> {
-    return this.http.post<OrderResponse>(`${this.baseUrl}/submit-order`, orderData);
+    return this.http.post<OrderResponse>(`${this.baseUrl}/submit-order`, orderData).pipe(
+      map(response => {
+        if (response.date) {
+          response.date = this.readableDate(response.date);
+        }
+        return response;
+      })
+    );
   }
 }
